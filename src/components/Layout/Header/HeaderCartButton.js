@@ -1,14 +1,22 @@
+import { useContext } from 'react';
 import CartIcon from '../../Cart/CartIcon';
 import styles from './HeaderCartButton.module.css';
+import CartContext from '../../../store/cart-context';
 
-const HeaderCartButton = ({ children }) => {
+const HeaderCartButton = ({ children, onClickCartButton }) => {
+	const cartCtx = useContext(CartContext);
+
+	const totalItems = cartCtx.items.reduce((acc, curr) => {
+		return acc + curr.units;
+	}, 1);
+
 	return (
-		<button className={styles.button}>
+		<button className={styles.button} onClick={onClickCartButton}>
 			<span className={styles.icon}>
 				<CartIcon />
 			</span>
 			<span>{children}</span>
-			<span className={styles.badge}>3</span>
+			<span className={styles.badge}>{totalItems}</span>
 		</button>
 	);
 };

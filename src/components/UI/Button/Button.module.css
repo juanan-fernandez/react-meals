@@ -1,16 +1,31 @@
-.button {
+.btn {
    font: inherit;
-   cursor: pointer;
+   cursor: pointer   ;
+   padding: 0.25rem 2rem;
+   border-radius: 10px;
+   font-weight: bold;
+   margin-left: 0.8rem;
    background-color: #8a2b06;
    border: 1px solid #8a2b06;
    color: white;
-   padding: 0.25rem 2rem;
-   border-radius: 20px;
-   font-weight: bold;
-} 
+}
 
-.button:hover,
-.button:active {
+
+.btn:hover,
+.btn:active {
 background-color: #641e03;
 border-color: #641e03;
+}
+
+.btn--alt {
+   border: 1px solid #8a2b06;
+   background-color: transparent;  
+   color:#8a2b06; 
+}
+
+.btn--alt:hover,
+.btn--alt:active {
+  background-color: #5a1a01;
+  border-color: #5a1a01;
+  color: white;
 }
