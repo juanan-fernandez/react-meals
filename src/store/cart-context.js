@@ -13,16 +13,47 @@ const defaultCart = { items: [], totalAmount: 0 };
 
 const cartReducer = (state, action) => {
 	if (action.type === 'ADD_ITEM') {
-		const updatedItems = state.items.concat(action.item);
+		const itemId = action.item.id;
+		const searchedItem = state.items.find(element => element.id === itemId);
+		let updatedItems = [];
+		if (searchedItem) {
+			updatedItems = state.items.map(element => {
+				if (element.id === itemId) {
+					return {
+						...element,
+						units: action.item.units + +element.units,
+					};
+				}
+				return element;
+			});
+		}
+
+		if (!searchedItem) updatedItems = state.items.concat(action.item);
 		const updatedAmount =
 			state.totalAmount + +(action.item.price * action.item.units).toFixed(2);
-		console.log(updatedItems);
 		return { items: updatedItems, totalAmount: updatedAmount };
 	}
 
 	if (action.type === 'REMOVE_ITEM') {
-		const updatedItems = state.items.concat(action.item);
-		const updatedAmount = state.totalAmount + +(action.item.price * action.item.units);
+		//si el id existe debo quitar una unidad.. y si se queda en 0 eliminar todo el carro
+		const existingItemId = state.items.findIndex(element => element.id === action.id);
+		const existingItem = state.items[existingItemId];
+		const updatedAmount = (state.totalAmount - existingItem.price).toFixed(2);
+		const updatedItem = { ...existingItem, units: existingItem.units - 1 };
+		let updatedItems = [];
+		if (updatedItem.units > 0) {
+			updatedItems = [...state.items];
+			updatedItems[existingItemId] = updatedItem;
+		} else {
+			updatedItems = state.items.filter(element => element.id !== action.id);
+		}
+
+		// const updatedAmount = updatedItems
+		// 	.reduce((acc, curr) => {
+		// 		return (acc += +(curr.units * curr.price));
+		// 	}, 0)
+		// 	.toFixed(2);
+
 		return { items: updatedItems, totalAmount: updatedAmount };
 	}
 
@@ -39,8 +70,6 @@ export const CartContextProvider = ({ children }) => {
 	const removeItemHandler = id => {
 		cartDispatch({ type: 'REMOVE_ITEM', id: id });
 	};
-
-	console.log(cartState);
 
 	const cartData = {
 		items: cartState.items,

@@ -8,7 +8,7 @@ const HeaderCartButton = ({ children, onClickCartButton }) => {
 
 	const totalItems = cartCtx.items.reduce((acc, curr) => {
 		return acc + curr.units;
-	}, 1);
+	}, 0);
 
 	return (
 		<button className={styles.button} onClick={onClickCartButton}>

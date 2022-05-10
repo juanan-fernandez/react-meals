@@ -1,0 +1,32 @@
+.cart-item {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   border-bottom: 2px solid #8a2b06;
+   padding: 0.9rem 0;
+   margin: 0 0.5rem;
+}
+
+.price-item-units {
+   display: flex;
+   justify-content: space-between;
+   width: 10rem;
+   align-items: center;
+}
+
+.price-item {
+   font-size: 1.3rem;
+   font-weight: 800;
+   color:#8a2b06;
+}
+
+
+.units-item {
+   padding: 0.2rem 0.8rem;
+   border: 1px solid #ccc;
+   border-radius:7px;
+}
+
+.units-item::before {
+   content: "x " ;
+}
