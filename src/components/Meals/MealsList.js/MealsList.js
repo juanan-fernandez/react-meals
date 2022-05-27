@@ -4,6 +4,9 @@ import Card from '../../UI/Card/Card';
 import Meal from '../Meal/Meal';
 
 const MealsList = () => {
+	//const formatListOfMeals = (data) => {
+
+	//}
 	const mealsList = DUMMY_MEALS.map(meal => (
 		<li key={meal.id}>
 			{
