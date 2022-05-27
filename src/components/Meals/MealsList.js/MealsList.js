@@ -1,13 +1,35 @@
-import { DUMMY_MEALS } from '../../../data/dummy-meals';
+import { useState, useEffect } from 'react';
+import useHttp from '../../../hooks/use-http';
 import styles from './MealsList.module.css';
 import Card from '../../UI/Card/Card';
 import Meal from '../Meal/Meal';
 
 const MealsList = () => {
-	//const formatListOfMeals = (data) => {
+	const [mealsList, setMealsList] = useState([]);
+	const { isLoading, terror, sendRequest: getMeals } = useHttp();
 
-	//}
-	const mealsList = DUMMY_MEALS.map(meal => (
+	useEffect(() => {
+		const formatListOfMeals = data => {
+			const auxMeal = [];
+			for (const key in data) {
+				auxMeal.push({
+					id: key,
+					name: data[key].name,
+					description: data[key].description,
+					price: +data[key].price,
+				});
+			}
+			setMealsList(auxMeal);
+		};
+
+		const reqObj = {
+			url: 'https://react-meals-6e546-default-rtdb.firebaseio.com/meals.json/',
+		};
+
+		getMeals(reqObj, formatListOfMeals);
+	}, [getMeals]);
+
+	const ListOfMeals = mealsList.map(meal => (
 		<li key={meal.id}>
 			{
 				<Meal
@@ -22,7 +44,9 @@ const MealsList = () => {
 
 	return (
 		<Card>
-			<ul className={styles.list}>{mealsList}</ul>
+			{isLoading && <p>loading... </p>}
+			<ul className={styles.list}>{ListOfMeals}</ul>
+			{terror && <p>terror</p>}
 		</Card>
 	);
 };
